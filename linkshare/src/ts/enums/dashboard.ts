@@ -1,5 +1,5 @@
 export enum FileStoreType {
-  grid,
-  column,
-  custom,
+  "grid",
+  "column",
+  "custom",
 }
