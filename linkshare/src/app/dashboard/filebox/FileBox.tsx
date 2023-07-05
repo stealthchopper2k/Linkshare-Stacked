@@ -15,9 +15,9 @@ export const FileBox: React.FC<FileBoxProps> = ({ files, style }) => {
   const [filtered_files, setFilteredFiles] = useState<File[]>(files);
 
   const conditions: Conditions = {
-    All: (file_array: File[]) => {
+    All: (values: File[]) => {
       // original files
-      return file_array;
+      return [...values];
     },
     Recent: (values: File[]) => {
       const current_date = new Date();
@@ -38,8 +38,12 @@ export const FileBox: React.FC<FileBoxProps> = ({ files, style }) => {
   const keys = Object.keys(conditions) as Array<keyof Conditions>;
 
   const FilterClick: FilterFunc = (val) => {
-    const new_array = conditions[val](filtered_files);
-    console.log(new_array);
+    let new_array: File[];
+    if (val == "All") {
+      new_array = conditions[val](file_array);
+    } else {
+      new_array = conditions[val](filtered_files);
+    }
     setFilteredFiles(new_array);
   };
 
