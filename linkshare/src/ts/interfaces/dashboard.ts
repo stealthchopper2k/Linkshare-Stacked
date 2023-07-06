@@ -23,7 +23,12 @@ export interface File {
 // changeable boxes holding files
 export interface FileBoxProps {
   files: File[];
+  collection: string;
   style: FileStoreType;
+}
+
+interface GridComponentProps {
+  filtered_files: File[];
 }
 
 export interface Conditions {
@@ -37,4 +42,20 @@ export type FilterFunc = (val: keyof Conditions) => void;
 export interface Filter {
   FilterClick: FilterFunc;
   values: Array<keyof Conditions>;
+}
+
+declare module "@mui/system" {
+  interface BreakpointOverrides {
+    // Your custom breakpoints
+    laptop: true;
+    tablet: true;
+    mobile: true;
+    desktop: true;
+    // Remove default breakpoints
+    xs: false;
+    sm: false;
+    md: false;
+    lg: false;
+    xl: false;
+  }
 }

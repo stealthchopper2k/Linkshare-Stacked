@@ -9,11 +9,14 @@ const Dashboard: React.FC<DashboardState> = async ({ user, login_state }) => {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <div className="mx-auto w-3/5">
+        <div className="mx-auto w-4/5">
           {file_boxes.map((box, i) => (
-            <Suspense fallback={<p>Loading Files...</p>}>
-              <FileBox key={i} files={box.files} style={box.style} />
-            </Suspense>
+            <FileBox
+              key={i}
+              files={box.files}
+              style={box.style}
+              collection={box.collection}
+            />
           ))}
         </div>
       </div>
@@ -42,8 +45,37 @@ async function getFileBoxes(username: string): Promise<FileBoxProps[]> {
           category: "Site Furnishings",
           date: "July 20, 69 20:17:40 GMT+00:00",
         },
+        {
+          id: 3,
+          name: "Georgi",
+          url: "gerg",
+          category: "Overhead Doors",
+          date: "July 20, 69 20:17:40 GMT+00:00",
+        },
+        {
+          id: 4,
+          name: "Clement",
+          url: "",
+          category: "Site Furnishings",
+          date: "July 20, 69 20:17:40 GMT+00:00",
+        },
+        {
+          id: 3,
+          name: "Georgi",
+          url: "gerg",
+          category: "Overhead Doors",
+          date: "July 20, 69 20:17:40 GMT+00:00",
+        },
+        {
+          id: 4,
+          name: "Clement",
+          url: "",
+          category: "Site Furnishings",
+          date: "July 20, 69 20:17:40 GMT+00:00",
+        },
       ],
       style: FileStoreType.timeline,
+      collection: "Random Files",
     },
     {
       files: [
@@ -61,8 +93,37 @@ async function getFileBoxes(username: string): Promise<FileBoxProps[]> {
           category: "Site Furnishings",
           date: "July 20, 69 20:17:40 GMT+00:00",
         },
+        {
+          id: 3,
+          name: "Georgi",
+          url: "gerg",
+          category: "Overhead Doors",
+          date: "July 20, 69 20:17:40 GMT+00:00",
+        },
+        {
+          id: 4,
+          name: "Clement",
+          url: "",
+          category: "Site Furnishings",
+          date: "July 20, 69 20:17:40 GMT+00:00",
+        },
+        {
+          id: 3,
+          name: "Georgi",
+          url: "gerg",
+          category: "Overhead Doors",
+          date: "July 20, 69 20:17:40 GMT+00:00",
+        },
+        {
+          id: 4,
+          name: "Clement",
+          url: "",
+          category: "Site Furnishings",
+          date: "July 20, 69 20:17:40 GMT+00:00",
+        },
       ],
       style: FileStoreType.size,
+      collection: "New Files",
     },
   ];
   // const files = await res.json();
