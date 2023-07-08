@@ -1,15 +1,9 @@
-import { Url } from "next/dist/shared/lib/router/router";
+import { User } from "./user";
 import { FileStoreType } from "../enums/dashboard";
 
 export interface DashboardState {
   user: User;
   login_state: boolean;
-}
-
-export interface User {
-  id: number;
-  username: string;
-  metadata: {};
 }
 
 export interface File {
@@ -25,10 +19,6 @@ export interface FileBoxProps {
   files: File[];
   collection: string;
   style: FileStoreType;
-}
-
-interface GridComponentProps {
-  filtered_files: File[];
 }
 
 export interface Conditions {

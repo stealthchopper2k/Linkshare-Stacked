@@ -5,7 +5,7 @@ import {
   FilterFunc,
   Conditions,
 } from "@/ts/interfaces/dashboard";
-import { FilterComponent } from "@/app/dashboard/filebox/FilterDiv";
+import { FilterComponent } from "@/app/components/filebox/FilterDiv";
 import { useEffect, useState } from "react";
 import { GridComponent } from "./Grid";
 

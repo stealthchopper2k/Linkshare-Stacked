@@ -1,6 +1,5 @@
 import { DashboardState, FileBoxProps } from "@/ts/interfaces/dashboard";
-import { Suspense } from "react";
-import { FileBox } from "./filebox/FileBox";
+import { FileBox } from "../../components/filebox/FileBox";
 import { FileStoreType } from "@/ts/enums/dashboard";
 
 const Dashboard: React.FC<DashboardState> = async ({ user, login_state }) => {
@@ -52,61 +51,12 @@ async function getFileBoxes(username: string): Promise<FileBoxProps[]> {
           category: "Overhead Doors",
           date: "July 20, 69 20:17:40 GMT+00:00",
         },
-        {
-          id: 4,
-          name: "Clement",
-          url: "",
-          category: "Site Furnishings",
-          date: "July 20, 69 20:17:40 GMT+00:00",
-        },
-        {
-          id: 3,
-          name: "Georgi",
-          url: "gerg",
-          category: "Overhead Doors",
-          date: "July 20, 69 20:17:40 GMT+00:00",
-        },
-        {
-          id: 4,
-          name: "Clement",
-          url: "",
-          category: "Site Furnishings",
-          date: "July 20, 69 20:17:40 GMT+00:00",
-        },
       ],
       style: FileStoreType.timeline,
       collection: "Random Files",
     },
     {
       files: [
-        {
-          id: 3,
-          name: "Georgi",
-          url: "gerg",
-          category: "Overhead Doors",
-          date: "July 20, 69 20:17:40 GMT+00:00",
-        },
-        {
-          id: 4,
-          name: "Clement",
-          url: "",
-          category: "Site Furnishings",
-          date: "July 20, 69 20:17:40 GMT+00:00",
-        },
-        {
-          id: 3,
-          name: "Georgi",
-          url: "gerg",
-          category: "Overhead Doors",
-          date: "July 20, 69 20:17:40 GMT+00:00",
-        },
-        {
-          id: 4,
-          name: "Clement",
-          url: "",
-          category: "Site Furnishings",
-          date: "July 20, 69 20:17:40 GMT+00:00",
-        },
         {
           id: 3,
           name: "Georgi",
