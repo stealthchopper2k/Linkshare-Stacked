@@ -20,5 +20,8 @@
     "noImplicitAny": true,
     "jsx": "preserve",
     "incremental": true
+  },
+  "paths": {
+    "@/*": ["../linkshare/src/*"]
   }
 }
