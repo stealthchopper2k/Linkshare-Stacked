@@ -7,9 +7,9 @@ export enum FileStoreType {
 }
 
 export interface File {
-  id?: number;
+  file_id?: number;
   name: string;
-  url: string;
+  url: string; // url to tree
   category: string;
   date: string;
 }
@@ -23,5 +23,10 @@ export interface FileBoxProps extends Document {
 
 export interface UserDashboard extends Document {
   boxes: FileBoxProps[];
+  settings: {};
   user_id: string;
 }
+
+// export type updatableDashboard<DashObj> = {
+//   [K in keyof DashObj]: DashObj[K] extends object ? K : never;
+// }[keyof DashObj];

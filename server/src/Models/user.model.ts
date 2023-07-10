@@ -2,6 +2,7 @@ import { User } from "../utils/interface/user";
 import { UserDashboard } from "../utils/interface/dashboard";
 import { Schema, model, startSession } from "mongoose";
 import logger from "../logger";
+import { UserDashboardModel } from "./dashboard.model";
 
 const userSchema: Schema = new Schema<User>({
   id: { type: String, required: true },
@@ -9,24 +10,13 @@ const userSchema: Schema = new Schema<User>({
   metadata: { type: Object, required: true },
 });
 
-const userDashboard: Schema = new Schema<UserDashboard>({
-  boxes: [{ type: Object, required: true }],
-  user_id: { type: String, required: true },
-});
-
 const User = model<User>("User", userSchema);
-
-const UserDashboard = model<UserDashboard>("userDashboard", userDashboard);
 
 // create user and assign dashboard relative to ID
 export async function createUser(
   id: string,
   dashboard: UserDashboard
 ): Promise<User | { error: string }> {
-  if (!id) {
-    throw new Error("User ID is required");
-  }
-
   // Start the session
   const session = await startSession();
 
@@ -43,7 +33,7 @@ export async function createUser(
     dashboard.user_id = user._id;
 
     // Create the user dashboard
-    const userDashboard = new UserDashboard(dashboard);
+    const userDashboard = new UserDashboardModel(dashboard);
 
     await userDashboard.save({ session });
 
@@ -51,7 +41,7 @@ export async function createUser(
     await session.commitTransaction();
     session.endSession();
 
-    return user as User;
+    return user as User; //only returns user, dashboard is initiated in client side
   } catch (e) {
     await session.abortTransaction();
     session.endSession();
@@ -59,22 +49,27 @@ export async function createUser(
     logger.error(
       `Error during createUser transaction, aborting: ${e} session: ${session}`
     );
+
     throw new Error("Could not create user");
   }
 }
 
-export async function getUserDashboard(id: User) {
-  if (!id) {
-    throw new Error("User ID is required");
-  }
-
+export async function getUser({ id }: User) {
   try {
-    const userDashboard = await User.findOne({ id });
-    return userDashboard;
-  } catch (error) {
-    logger.error(error);
-    throw new Error(`Could not find user with ID ${id}`);
+    const user = (await User.findOne({ id })) as User;
+    return user;
+  } catch (e) {
+    logger.error(`Error getting user: ${e}`);
+    throw new Error(`Could not find user ID: ${id}`);
   }
 }
 
-// export async function
+export async function updateUser({ id }: User, user: User) {
+  try {
+    const newUser = User.findOneAndUpdate({ user_id: id }, user, { new: true }); // update and return
+    return newUser;
+  } catch (e) {
+    logger.error(`Error updating user of ID: ${user.id}, Error:${e} `);
+    throw new Error(`Error updating user`);
+  }
+}

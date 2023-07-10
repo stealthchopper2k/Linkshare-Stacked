@@ -5,7 +5,7 @@ import * as User from "./user-router";
 function Init() {
   logger.info("Initializing server...");
 
-  Server.App.get("/api/createUser/:id", User.postUser);
+  Server.App.get("/user/create/:id", User.registerUser);
 }
 
 export default Init;

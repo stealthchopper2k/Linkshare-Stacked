@@ -17,7 +17,7 @@ export interface TreeNode {
 
 export interface Tree extends Document {
   tree_id: number;
-  user_id?: number;
+  user_id: number;
   node_array: Types.Array<TreeNode>;
   style: string;
   pub: boolean;
