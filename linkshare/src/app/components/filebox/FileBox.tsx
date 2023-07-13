@@ -53,9 +53,13 @@ export const FileBox: React.FC<FileBoxProps> = ({
   };
 
   return (
-    <div className="border-2 border-solid rounded-md border-black p-5 m-5">
-      <FilterComponent FilterClick={FilterClick} values={keys} />
+    <div
+      className="flex justify-between border-2 border-solid rounded-md border-black mb-5 mt-5 
+      box bg-emerald-200 rounded-lg p-4 shadow-md
+    "
+    >
       <GridComponent filtered_files={filtered_files} />
+      <FilterComponent FilterClick={FilterClick} values={keys} />
     </div>
   );
 };

@@ -7,7 +7,7 @@ export interface DashboardState {
 }
 
 export interface File {
-  id?: number;
+  file_id?: number;
   name: string;
   url: string;
   category: string;
@@ -17,7 +17,7 @@ export interface File {
 // changeable boxes holding files
 export interface FileBoxProps {
   files: File[];
-  collection: string;
+  collection_name: string;
   style: FileStoreType;
 }
 

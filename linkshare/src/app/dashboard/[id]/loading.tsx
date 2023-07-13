@@ -1,6 +1,6 @@
 "use client";
 import Skeleton from "@mui/material/Skeleton";
-import { GridComponent } from "../components/filebox/Grid";
+import { GridComponent } from "../../components/filebox/Grid";
 
 const Loading = () => {
   const files = [
