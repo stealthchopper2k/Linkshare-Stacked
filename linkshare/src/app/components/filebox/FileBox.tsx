@@ -4,19 +4,22 @@ import {
   File,
   FilterFunc,
   Conditions,
+  CollectionFunc,
 } from "@/ts/interfaces/dashboard";
 import { FilterComponent } from "@/app/components/filebox/FilterDiv";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { GridComponent } from "./Grid";
+import CollectionTag from "./CollectionTag";
 
 // Adjustable file holder component that can filter based on date
 export const FileBox: React.FC<FileBoxProps> = ({
   files,
   style,
-  collection,
+  collection_name,
 }) => {
   const [file_array, newFiles] = useState<File[]>(files);
   const [filtered_files, setFilteredFiles] = useState<File[]>(files);
+  const [newCollectionName, setNewCollectionName] = useState(collection_name);
 
   const conditions: Conditions = {
     All: (values: File[]) => {
@@ -52,12 +55,21 @@ export const FileBox: React.FC<FileBoxProps> = ({
     setFilteredFiles(new_array);
   };
 
+  const CollectionInput: CollectionFunc = (event) => {
+    console.log(newCollectionName);
+    setNewCollectionName(event.target.value);
+  };
+
   return (
     <div
       className="flex justify-between border-2 border-solid rounded-md border-black mb-5 mt-5 
-      box bg-emerald-200 rounded-lg p-4 shadow-md
+      box bg-white rounded-lg p-4 shadow-md
     "
     >
+      <CollectionTag
+        collection_name={newCollectionName}
+        CollectionInput={CollectionInput}
+      />
       <GridComponent filtered_files={filtered_files} />
       <FilterComponent FilterClick={FilterClick} values={keys} />
     </div>
