@@ -5,7 +5,7 @@ import LogBtn from "../login/handle";
 
 const Navbar: React.FC = () => {
   return (
-    <nav className="bg-opacity-0">
+    <nav className="bg-white border-b-4 border-black">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2">
         <a href="#" className="flex items-center">
           <Image

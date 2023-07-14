@@ -1,3 +1,4 @@
+import { CollectionFunc } from "./dashboard";
 import { User } from "./user";
 import { FileStoreType } from "../enums/dashboard";
 
@@ -25,6 +26,15 @@ export interface Conditions {
   All: (file_array: File[]) => File[];
   Recent: (values: File[]) => File[];
   Oldest: (values: File[]) => File[];
+}
+
+export type CollectionFunc = (
+  arg0: React.ChangeEvent<HTMLInputElement>
+) => void;
+
+export interface CollectionTag {
+  collection_name: string;
+  CollectionInput: CollectionFunc;
 }
 
 export type FilterFunc = (val: keyof Conditions) => void;
