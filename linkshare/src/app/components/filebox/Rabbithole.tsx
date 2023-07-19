@@ -23,9 +23,14 @@ export const RabbitHole: React.FC<RabbitHoleProps> = ({
   draggableProps,
 }) => {
   return (
-    <div {...draggableProps} {...dragHandleProps} ref={innerRef}>
+    <div
+      {...draggableProps}
+      {...dragHandleProps}
+      ref={innerRef}
+      className="flex-1"
+    >
       <Link className="text-white" href={file.url}>
-        <div className="transform hover:scale-105 transition-all duration-300 border-2 border-black rounded-full border-black bg-gray-900 flex flex-col box-border aspect-w-1 aspect-h-1 h-[4rem] w-[4rem] p-2 md:h-[5.5rem] sm:w-[5rem] md:w-[5.5rem] justify-center items-center text-center">
+        <div className="transform hover:scale-105 transition-all duration-300 border-2 border-black rounded-sm space-y-2 border-black bg-gray-900 flex flex-col box-border h-[4rem] w-full p-2 justify-center items-center text-center">
           <h1 className="justify-self-center">{file.name}</h1>
         </div>
       </Link>

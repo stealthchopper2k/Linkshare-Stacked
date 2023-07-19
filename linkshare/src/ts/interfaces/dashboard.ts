@@ -1,4 +1,3 @@
-import { CollectionFunc } from "./dashboard";
 import { User } from "./user";
 import { FileStoreType } from "../enums/dashboard";
 
@@ -8,7 +7,7 @@ export interface DashboardState {
 }
 
 export interface File {
-  file_id?: number;
+  file_id: number;
   name: string;
   url: string;
   category: string;
@@ -17,9 +16,9 @@ export interface File {
 
 // changeable boxes holding files
 export interface FileBoxProps {
+  box_id: string;
   files: File[];
   collection_name: string;
-  style: FileStoreType;
 }
 
 export interface Conditions {
@@ -42,20 +41,4 @@ export type FilterFunc = (val: keyof Conditions) => void;
 export interface Filter {
   FilterClick: FilterFunc;
   values: Array<keyof Conditions>;
-}
-
-declare module "@mui/system" {
-  interface BreakpointOverrides {
-    // Your custom breakpoints
-    laptop: true;
-    tablet: true;
-    mobile: true;
-    desktop: true;
-    // Remove default breakpoints
-    xs: false;
-    sm: false;
-    md: false;
-    lg: false;
-    xl: false;
-  }
 }

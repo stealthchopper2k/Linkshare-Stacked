@@ -1,7 +1,20 @@
 "use client";
 import { FileBoxProps } from "@/ts/interfaces/dashboard";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import GridComponent from "./GridComponent";
+import { CSS } from "@dnd-kit/utilities";
+import GridBox from "../dndnnew/DndGrid";
+import {
+  DndContext,
+  KeyboardSensor,
+  PointerSensor,
+  closestCenter,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  SortableContext,
+  sortableKeyboardCoordinates,
+} from "@dnd-kit/sortable";
+import { SortableItem } from "./SortableBox";
 
 type Props = {
   boxes: FileBoxProps[];
@@ -9,31 +22,30 @@ type Props = {
 
 // Adjustable file holder component that can filter based on date
 export const Board = ({ boxes }: Props) => {
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
   return (
-    <DragDropContext
-      onDragEnd={(result) => console.log(result)}
-      onDragStart={(t) => console.log(t)}
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragStart={(e) => console.log(e.active.id)}
+      onDragEnd={(e) => console.log(e.active.id)}
     >
-      <Droppable droppableId="board" direction="vertical" type="column">
-        {(provided, snapshot) => (
-          <div
-            className="min-h-screen flex flex-col w-full h-full mx-auto"
-            {...provided.droppableProps}
-            ref={provided.innerRef}
-          >
-            {Array.from(boxes).map((box, index) => (
-              <GridComponent
-                key={box.box_id}
-                files={box.files}
-                box_id={box.box_id}
-                index={index}
-                collection_name={box.collection_name}
-              />
-            ))}
-            {provided.placeholder}
-          </div>
-        )}
-      </Droppable>
-    </DragDropContext>
+      <SortableContext items={boxes.map((file) => file.box_id)}>
+        {Array.from(boxes).map((box, index) => (
+          <SortableItem
+            key={box.box_id}
+            id={box.box_id}
+            files={box.files}
+            index={index}
+          />
+        ))}
+      </SortableContext>
+    </DndContext>
   );
 };

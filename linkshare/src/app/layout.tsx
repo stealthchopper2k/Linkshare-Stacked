@@ -14,10 +14,8 @@ export default function RootLayout({
       <html lang="en">
         <meta name="viewport" content="initial-scale=1, width=device-width" />
         <body>
-          <main>
-            <Navbar />
-            {children}
-          </main>
+          <Navbar />
+          <main>{children}</main>
         </body>
       </html>
     </NextAuthProvider>
