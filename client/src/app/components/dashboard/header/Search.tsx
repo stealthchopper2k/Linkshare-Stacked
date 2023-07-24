@@ -9,7 +9,7 @@ export default function Search() {
         <input
           type="text"
           placeholder="Search"
-          className="flex-1 outline-none p-2"
+          className="flex-1 outline-none p-2 text-black"
         />
         <button type="submit">Search</button>
       </form>

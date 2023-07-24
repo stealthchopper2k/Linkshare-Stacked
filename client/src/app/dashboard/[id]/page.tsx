@@ -1,14 +1,14 @@
 import { DashboardState, FileBoxProps } from "@/ts/interfaces/dashboard";
-import { HeaderComponent } from "../../components/header/heading";
-import { Board } from "@/app/components/filebox/Board";
+import { HeaderComponent } from "../../components/dashboard/header/heading";
+import { Board } from "@/app/components/dashboard/container/Board";
 
 const Dashboard: React.FC<DashboardState> = async ({ user, login_state }) => {
   const file_boxes = await getFileBoxes(""); // user.username
 
   return (
     <main className="p-5 bg-gradient-to-b from-blue-200 to-blue-100">
-      <div className="z-10 w-full font-mono text-sm lg:flex min-h-screen">
-        <div className="mx-auto w-2/5 flex flex-col justify-center items-center">
+      <div className="w-full font-mono text-sm lg:flex min-h-screen flex justify-center items-start">
+        <div className="z-10 mx-auto w-3/5 flex flex-col justify-center items-center">
           <HeaderComponent />
           <Board boxes={file_boxes} />
         </div>

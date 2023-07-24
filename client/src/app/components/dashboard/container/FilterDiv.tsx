@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { Filter } from "@/ts/interfaces/dashboard";
 import Image from "next/image";
 
-export const FilterComponent: React.FC<Filter> = ({ FilterClick, values }) => {
+export const FilterComponent: React.FC<Filter> = ({ FilterClick, condition_keys}) => {
   const [dropdown, setDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
@@ -24,7 +24,6 @@ export const FilterComponent: React.FC<Filter> = ({ FilterClick, values }) => {
   }, []);
 
   return (
-    <div className="relative">
       <div
         className="absolute top-0 right-0 h-10 flex flex-col py-1 px-1 transform hover:scale-105 transition-all duration-300"
         ref={dropdownRef}
@@ -54,7 +53,7 @@ export const FilterComponent: React.FC<Filter> = ({ FilterClick, values }) => {
             }`}
           >
             {dropdown &&
-              values.map((value, i) => (
+              condition_keys.map((value, i) => (
                 <label className="max-w-fit" key={i}>
                   <input
                     type="radio"
@@ -71,6 +70,5 @@ export const FilterComponent: React.FC<Filter> = ({ FilterClick, values }) => {
           </div>
         </div>
       </div>
-    </div>
   );
 };

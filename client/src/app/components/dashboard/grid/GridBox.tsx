@@ -7,6 +7,8 @@ import {
   useSensor,
   useSensors,
   DragOverlay,
+  useDroppable,
+  UniqueIdentifier,
 } from "@dnd-kit/core";
 import {
   arrayMove,
@@ -15,10 +17,16 @@ import {
   rectSortingStrategy,
 } from "@dnd-kit/sortable";
 import { SortableItem } from "./SortableItem";
-import { Item } from "./Item.tsx";
-import { Grid } from "./Grid.tsx";
+import { Item } from "./Item";
+import GridParent from "./GridParent";
+import { File } from "@/ts/interfaces/dashboard";
 
-const GridBox = ({ files, box_id, index }) => {
+interface Props {
+  files: File[];
+  id: UniqueIdentifier;
+}
+
+const GridBox = ({ files, }: Props) => {
   const [activeId, setActiveId] = useState(null);
   const [currFiles, setFiles] = useState(files);
 
@@ -41,6 +49,7 @@ const GridBox = ({ files, box_id, index }) => {
 
   const handleDragEnd = (event) => {
     const { active, over } = event;
+    console.log(active.data.current)
 
     if (active.id !== over.id) {
       setFiles((prevFiles) => {
@@ -54,8 +63,10 @@ const GridBox = ({ files, box_id, index }) => {
   };
 
   useEffect(() => {
-    console.log(currFiles);
-  }, [currFiles]);
+    setFiles(files);
+
+    return () => {}
+  }, [files])
 
   return (
     <DndContext
@@ -69,16 +80,16 @@ const GridBox = ({ files, box_id, index }) => {
         items={currFiles.map((file) => file.file_id)}
         strategy={rectSortingStrategy}
       >
-        <Grid columns={5}>
+        <GridParent columns={5}>
           {currFiles.map((file) => (
             <SortableItem key={file.file_id} id={file.file_id} />
           ))}
-        </Grid>
+        </GridParent>
       </SortableContext>
       <DragOverlay adjustScale style={{ transformOrigin: "0 0 " }}>
         {activeId ? <Item id={activeId} isDragging /> : null}
       </DragOverlay>
-    </DndContext>
+      </DndContext>
   );
 };
 

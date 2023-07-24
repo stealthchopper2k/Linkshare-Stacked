@@ -11,9 +11,6 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
     const inlineStyles: CSSProperties = {
       opacity: withOpacity ? "0.5" : "1",
       transformOrigin: "50% 50%",
-      height: "140px",
-      width: "140px",
-      borderRadius: "10px",
       cursor: isDragging ? "grabbing" : "grab",
       backgroundColor: "#ffffff",
       display: "flex",
@@ -27,7 +24,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
     };
 
     return (
-      <div ref={ref} style={inlineStyles} {...props}>
+      <div ref={ref} style={inlineStyles} {...props} className="text-black h-[4rem] w-[6rem]">
         {id}
       </div>
     );
