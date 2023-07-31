@@ -1,6 +1,7 @@
-import { DashboardState, FileBoxProps } from "@/ts/interfaces/dashboard";
+import { DashboardState, FetchedFiles, FileBoxProps } from "@/ts/interfaces/dashboard";
 import { HeaderComponent } from "../../components/dashboard/header/heading";
 import { Board } from "@/app/components/dashboard/container/Board";
+import { addValuesToObj } from "@/lib/dashboard/helper";
 
 const Dashboard: React.FC<DashboardState> = async ({ user, login_state }) => {
   const file_boxes = await getFileBoxes(""); // user.username
@@ -10,7 +11,7 @@ const Dashboard: React.FC<DashboardState> = async ({ user, login_state }) => {
       <div className="w-full font-mono text-sm lg:flex min-h-screen flex justify-center items-start">
         <div className="z-10 mx-auto w-3/5 flex flex-col justify-center items-center">
           <HeaderComponent />
-          <Board boxes={file_boxes} />
+          <Board container={file_boxes} />
         </div>
       </div>
     </main>
@@ -21,9 +22,8 @@ async function getFileBoxes(username: string) {
   const res = await fetch("http://localhost:3000/api/files");
 
   // dummy data
-  const boxes = [
+  const boxes: FetchedFiles[] = [
     {
-      box_id: "B1",
       files: [
         {
           file_id: "F0",
@@ -78,7 +78,6 @@ async function getFileBoxes(username: string) {
       collection_name: "Random Files",
     },
     {
-      box_id: "B2",
       files: [
         {
           file_id: "F7",
@@ -99,7 +98,9 @@ async function getFileBoxes(username: string) {
     },
   ];
   // const files = await res.json();
-  return boxes;
+
+  const convertedBoxes = addValuesToObj("files", boxes);
+  return convertedBoxes;
 }
 
 export default Dashboard;

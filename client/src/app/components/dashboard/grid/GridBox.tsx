@@ -1,95 +1,81 @@
-import React, { useState, useCallback, useEffect } from "react";
-import {
-  DndContext,
-  closestCenter,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-  DragOverlay,
-  useDroppable,
-  UniqueIdentifier,
-} from "@dnd-kit/core";
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  rectSortingStrategy,
-} from "@dnd-kit/sortable";
+import React, { useState } from "react";
 import { SortableItem } from "./SortableItem";
-import { Item } from "./Item";
-import GridParent from "./GridParent";
-import { File } from "@/ts/interfaces/dashboard";
+import { CollectionFunc, Conditions, File, FilterFunc } from "@/ts/interfaces/dashboard";
+import { FilterComponent } from "../container/FilterDiv";
+import CollectionTag from "../container/CollectionTag";
 
 interface Props {
   files: File[];
-  id: UniqueIdentifier;
+  collection_name: string;
 }
 
-const GridBox = ({ files, }: Props) => {
-  const [activeId, setActiveId] = useState(null);
-  const [currFiles, setFiles] = useState(files);
+const GridBox = ({ files, collection_name }: Props) => {
+  const [newCollectionName, setNewCollectionName] = useState(collection_name);
+  const [oldCollectionName, setOldCollectionName] = useState(collection_name);
 
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
-  );
-
-  const handleDragCancel = useCallback(() => {
-    setActiveId(null);
-  }, []);
-
-  const handleDragStart = (event) => {
-    const { active } = event;
-
-    setActiveId(active.id);
+  const [file_array, setFileArray] = useState(files);
+  const [filtered_files, setFilteredFiles] = useState(files);
+  
+  const conditions: Conditions = {
+    All: (values: File[]) => {
+      // original files
+      return [...values];
+    },
+    Recent: (values: File[]) => {
+      const current_date = new Date();
+      return [...values].sort(
+        (file: File) => current_date.getTime() - new Date(file.date).getTime()
+      );
+    },
+    Oldest: (values: File[]) => {
+      const current_date = new Date();
+      return [...values].sort(
+        (value: File) => current_date.getTime() - new Date(value.date).getTime()
+      );
+    },
   };
 
-  const handleDragEnd = (event) => {
-    const { active, over } = event;
-    console.log(active.data.current)
+  const keys = Object.keys(conditions) as Array<keyof Conditions>;
 
-    if (active.id !== over.id) {
-      setFiles((prevFiles) => {
-        const oldPos = prevFiles.findIndex((obj) => obj.file_id === active.id);
-        const newPos = prevFiles.findIndex((obj) => obj.file_id === over.id);
-
-        return arrayMove(prevFiles, oldPos, newPos);
-      });
+  const FilterClick: FilterFunc = (val) => {
+    let new_array: File[];
+    if (val == "All") {
+      new_array = conditions[val](file_array);
+    } else {
+      new_array = conditions[val](filtered_files);
     }
-    setActiveId(null);
+
+    setFilteredFiles(new_array);
   };
 
-  useEffect(() => {
-    setFiles(files);
+  const CollectionInput: CollectionFunc = (e) => {
+    setNewCollectionName(e.target.value);
+  };
 
-    return () => {}
-  }, [files])
+  const RevertCollectionInput = () => {
+    setNewCollectionName(oldCollectionName);
+  }
+
+  const PersistOldCollectionName = () => {
+    setOldCollectionName(newCollectionName);
+  }
+  
 
   return (
-    <DndContext
-      sensors={sensors}
-      collisionDetection={closestCenter}
-      onDragStart={handleDragStart}
-      onDragEnd={handleDragEnd}
-      onDragCancel={handleDragCancel}
-    >
-      <SortableContext
-        items={currFiles.map((file) => file.file_id)}
-        strategy={rectSortingStrategy}
-      >
-        <GridParent columns={5}>
-          {currFiles.map((file) => (
-            <SortableItem key={file.file_id} id={file.file_id} />
-          ))}
-        </GridParent>
-      </SortableContext>
-      <DragOverlay adjustScale style={{ transformOrigin: "0 0 " }}>
-        {activeId ? <Item id={activeId} isDragging /> : null}
-      </DragOverlay>
-      </DndContext>
+    <div className="my-8 rounded-lg p-4">
+        <FilterComponent FilterClick={FilterClick} condition_keys={keys} />
+        <CollectionTag collection_name={newCollectionName} CollectionInput={CollectionInput} RevertCollectionInput={RevertCollectionInput} PersistOldCollectionName={PersistOldCollectionName} />
+      <div className="grid grid-cols-5 gap-10 border-solid border-2 border-black rounded-md p-4">
+      {files.map((file) => (
+                <div key={file.client_id}>
+                <SortableItem file={file} />
+                {/* <DragOverlay>
+                {activeId ? <SortableItem file={file} /> : null}
+                </DragOverlay> */}
+                </div>
+              ))}
+      </div>
+      </div>
   );
 };
 

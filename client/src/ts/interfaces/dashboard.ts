@@ -1,5 +1,5 @@
+import { SetStateAction } from 'react';
 import { User } from "./user";
-import { FileStoreType } from "../enums/dashboard";
 
 export interface DashboardState {
   user: User;
@@ -7,11 +7,12 @@ export interface DashboardState {
 }
 
 export interface File {
-  file_id: number;
+  file_id: string;
   name: string;
   url: string;
   category: string;
   date: string;
+  client_id: string;
 }
 
 // changeable boxes holding files
@@ -40,5 +41,19 @@ export type FilterFunc = (val: keyof Conditions) => void;
 
 export interface Filter {
   FilterClick: FilterFunc;
-  values: Array<keyof Conditions>;
+  condition_keys: Array<keyof Conditions>;
+}
+
+export type KeyedBox = {
+  [property: string]: {};
+}
+
+export interface FetchedFiles {
+  files: File[];
+  collection_name: string;
+  [key: string]: any;
+}
+
+export interface Container {
+  [property: string]: FetchedFiles;
 }
