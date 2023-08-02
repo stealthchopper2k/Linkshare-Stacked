@@ -67,10 +67,10 @@ const GridBox = ({ files, collection_name, editmode }: Props) => {
   },[files])
 
   return (
-    <div className="my-8 rounded-lg">
+    <div className="mt-8 rounded-lg">
         <FilterComponent FilterClick={FilterClick} condition_keys={keys} />
       <CollectionTag collection_name={newCollectionName} CollectionInput={CollectionInput} RevertCollectionInput={RevertCollectionInput} PersistOldCollectionName={PersistOldCollectionName} editmode={editmode} />
-      <div className="grid grid-cols-5 gap-10 border-solid border-2 border-black rounded-md p-4">
+      <div className="grid grid-cols-5 gap-5 border-solid rounded-md p-4 inline-flex">
       {editmode ? (
   files.map((file) => (
     <div key={file.client_id}>

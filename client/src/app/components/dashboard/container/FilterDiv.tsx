@@ -25,30 +25,30 @@ export const FilterComponent: React.FC<Filter> = ({ FilterClick, condition_keys}
 
   return (
       <div
-        className="absolute top-0 right-0 h-10 flex flex-col py-1 px-1 transform hover:scale-105 transition-all duration-300"
+        className="absolute top-0 right-0 h-6 flex flex-col transform hover:scale-105 transition-all duration-300"
         ref={dropdownRef}
       >
-        <div className="hs-dropdown">
+        <div className="hs-dropdown ">
           <button
             id="hs-dropdown-default"
             type="button"
             onClick={(e: any) => {
               setDropdown(!dropdown);
             }}
-            className="py-2 px-2 hs-dropdown-toggle inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 border-black dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
+            className="py-1 px-1 hs-dropdown-toggle inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-slate-800 text-white align-middle focus:outline-none focus:ring-2 transition-all text-md border-black "
           >
             Actions
             <Image
               src={"/arrow.svg"}
               alt="Arrow"
-              className="hs-dropdown-open:rotate-180 w-2.5 h-2.5 text-gray-600"
+              className="hs-dropdown-open:rotate-180 w-2.5 h-2.5 text-white"
               width={16}
               height={16}
               fill={false}
             />
           </button>
           <div
-            className={`flex flex-col flex-1 transition-all ${
+            className={`flex flex-col flex-1 justify-center transition-all ease-out duration-300 bg-slate-800 rounded-md ${
               dropdown ? "h-full" : "h-0 border-0"
             }`}
           >

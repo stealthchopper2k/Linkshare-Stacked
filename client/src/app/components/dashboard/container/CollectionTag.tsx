@@ -32,8 +32,10 @@ const CollectionTag = ({ collection_name, CollectionInput, RevertCollectionInput
     }
   }, [isEditing]);
 
+  const inputClass= "px-2 py-1 focus:ring-2 focus:ring-blue-500 text-white rounded-tl-md bg-slate-800 border-b-2"
+
   return (
-      <div className="absolute top-0 border border-black rounded-md whitespace-nowrap bg-white">
+      <div className="absolute top-0 border-r-2 border-b-2 rounded-tl-md border-black whitespace-nowrap bg-slate-800 lg:text-lg md:text-md sm:text-sm">
         {editmode && isEditing ? (
           <input
             value={collection_name}
@@ -41,20 +43,20 @@ const CollectionTag = ({ collection_name, CollectionInput, RevertCollectionInput
               CollectionInput(e);
             }}
           onKeyDown={(e) => {
-              e.stopPropagation();
+              e.stopPropagation(); // stop the input event from propogating to drag and drop
               handleKeyDown(e);
             }}
             ref={inputRef}
             type=""
             onBlur={handleBlur}
-            className="border border-gray-300 rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+            className={inputClass}
           />
         ) : (
           <span
               onDoubleClick={(e) => {
                 handleDoubleClick(e)
               }}
-            className="border border-gray-300 rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+            className={inputClass}
           >
             {collection_name}
           </span>

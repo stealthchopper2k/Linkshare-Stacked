@@ -9,7 +9,7 @@ const Dashboard: React.FC<DashboardState> = async ({ user, login_state }) => {
   return (
     <main className="p-5 bg-gradient-to-b from-blue-200 to-blue-100">
       <div className="w-full font-mono text-sm lg:flex min-h-screen flex justify-center items-start">
-        <div className="z-10 mx-auto w-3/5 flex flex-col justify-center items-center">
+        <div className="z-10 mx-auto w-4/5 flex flex-col justify-center items-center">
           <HeaderComponent />
           <Board container={file_boxes} />
         </div>

@@ -44,7 +44,7 @@ export const SortableItem = ({ file, editmode }: Props) => {
 
   return (
     <>
-    <div ref={editmode ? setNodeRef: null} {...listeners} {...attributes} style={inlineStyles} className="text-black h-[4rem] w-[6rem]">
+    <div ref={editmode ? setNodeRef: null} {...listeners} {...attributes} style={inlineStyles} className="text-black lg:h-[6rem] lg:w-[8rem] md:h-[2.5rem] md:w-[4rem] sm:h-[2rem] sm:w-[3rem]">
       {file.client_id}
       </div>
       </>

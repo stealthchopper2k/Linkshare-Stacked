@@ -37,7 +37,7 @@ export function BoardBox({ id, files, children, editmode }: Props) {
   };
 
   return (
-    <div ref={editmode ? setNodeRef : null} style={style} {...attributes} {...listeners} className="my-8 rounded-lg relative w-4/5 border-solid border-2 border-black bg-white">
+    <div ref={editmode ? setNodeRef : null} style={style} {...attributes} {...listeners} className="my-8 rounded-lg relative w-auto border-solid border-2 border-black bg-white">
         {children}
     </div>
   );
