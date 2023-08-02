@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SortableItem } from "./SortableItem";
 import { CollectionFunc, Conditions, File, FilterFunc } from "@/ts/interfaces/dashboard";
 import { FilterComponent } from "../container/FilterDiv";
 import CollectionTag from "../container/CollectionTag";
+import { DragOverlay } from "@dnd-kit/core";
 
 interface Props {
   files: File[];
   collection_name: string;
+  editmode: boolean;
 }
 
-const GridBox = ({ files, collection_name }: Props) => {
+const GridBox = ({ files, collection_name, editmode }: Props) => {
   const [newCollectionName, setNewCollectionName] = useState(collection_name);
   const [oldCollectionName, setOldCollectionName] = useState(collection_name);
 
@@ -60,20 +62,28 @@ const GridBox = ({ files, collection_name }: Props) => {
     setOldCollectionName(newCollectionName);
   }
   
+  useEffect(() => {
+    console.log(files);
+  },[files])
 
   return (
-    <div className="my-8 rounded-lg p-4">
+    <div className="my-8 rounded-lg">
         <FilterComponent FilterClick={FilterClick} condition_keys={keys} />
-        <CollectionTag collection_name={newCollectionName} CollectionInput={CollectionInput} RevertCollectionInput={RevertCollectionInput} PersistOldCollectionName={PersistOldCollectionName} />
+      <CollectionTag collection_name={newCollectionName} CollectionInput={CollectionInput} RevertCollectionInput={RevertCollectionInput} PersistOldCollectionName={PersistOldCollectionName} editmode={editmode} />
       <div className="grid grid-cols-5 gap-10 border-solid border-2 border-black rounded-md p-4">
-      {files.map((file) => (
-                <div key={file.client_id}>
-                <SortableItem file={file} />
-                {/* <DragOverlay>
-                {activeId ? <SortableItem file={file} /> : null}
-                </DragOverlay> */}
-                </div>
-              ))}
+      {editmode ? (
+  files.map((file) => (
+    <div key={file.client_id}>
+      <SortableItem file={file} editmode={editmode} />
+    </div>
+  ))
+) : (
+  filtered_files.map((file) => (
+    <div key={file.client_id}>
+      <SortableItem file={file} editmode={editmode} />
+    </div>
+  ))
+)}
       </div>
       </div>
   );

@@ -1,12 +1,11 @@
 import React, { useRef, useState, useEffect } from "react";
 import { CollectionTag } from "@/ts/interfaces/dashboard";
 
-const CollectionTag = ({ collection_name, CollectionInput, RevertCollectionInput, PersistOldCollectionName }: CollectionTag) => {
+const CollectionTag = ({ collection_name, CollectionInput, RevertCollectionInput, PersistOldCollectionName, editmode }: CollectionTag) => {
   const inputRef = useRef<HTMLInputElement>(null);
-
   const [isEditing, setEditing] = useState(false);
 
-  const handleDoubleClick = (e) => {
+  const handleDoubleClick = (e: any) => {
     setEditing(true);
     inputRef.current?.focus();
   };
@@ -35,13 +34,14 @@ const CollectionTag = ({ collection_name, CollectionInput, RevertCollectionInput
 
   return (
       <div className="absolute top-0 border border-black rounded-md whitespace-nowrap bg-white">
-        {isEditing ? (
+        {editmode && isEditing ? (
           <input
             value={collection_name}
             onChange={(e) => {
               CollectionInput(e);
             }}
-            onKeyDown={(e) => {
+          onKeyDown={(e) => {
+              e.stopPropagation();
               handleKeyDown(e);
             }}
             ref={inputRef}

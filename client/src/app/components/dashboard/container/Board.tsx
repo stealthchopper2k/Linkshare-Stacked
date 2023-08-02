@@ -1,15 +1,11 @@
 "use client";
-import { FileBoxProps } from "@/ts/interfaces/dashboard";
 import {
   DndContext,
   DragCancelEvent,
-  DragEndEvent,
-  DragOverlay,
   DragStartEvent,
   KeyboardSensor,
   PointerSensor,
   UniqueIdentifier,
-  closestCenter,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
@@ -21,9 +17,8 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { BoardBox } from "./BoardBox";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Container } from "@/ts/interfaces/dashboard";
-import { SortableItem } from "../grid/SortableItem";
 import GridBox from "../grid/GridBox";
 
 interface Props {
@@ -34,6 +29,7 @@ interface Props {
 export const Board = ( {container} : Props) => {
   const [currBoxes, setBoxes] = useState(container);
   const [clonedBoxes, setClonedBoxes] = useState<Container | null>(container);
+  const [edit, setEdit] = useState(true);
 
   const [keyContainers, setContainers] = useState(Object.keys(currBoxes) as UniqueIdentifier[]);
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
@@ -52,6 +48,10 @@ export const Board = ( {container} : Props) => {
     })
   );
 
+  const toggleEdit = () => {
+    setEdit(!edit);
+  }
+
   const findContainer = (id: any): UniqueIdentifier => {
     if (id in currBoxes) {
       return id;
@@ -59,11 +59,10 @@ export const Board = ( {container} : Props) => {
   
     return Object.keys(currBoxes).find((key) => currBoxes[key].files.find(item => item.client_id.includes(id))) as string;
   }
-
+  
   return (
     <DndContext
       sensors={sensors}
-      collisionDetection={closestCenter}
       onDragStart={(event: DragStartEvent) => { 
         const { active } = event;
 
@@ -190,11 +189,11 @@ export const Board = ( {container} : Props) => {
       
       <SortableContext items={[...keyContainers]} strategy={verticalListSortingStrategy}>
         {keyContainers.map((key, index) => (
-          <BoardBox key={key} id={key} index={index} collection_name={currBoxes[key].collection_name} files={currBoxes[key].files}>
+          <BoardBox key={key} id={key} index={index} collection_name={currBoxes[key].collection_name} files={currBoxes[key].files} editmode={edit}>
             <SortableContext
               items={currBoxes[key].files.map((file) => file.client_id)}
               strategy={rectSortingStrategy}>
-              <GridBox files={currBoxes[key].files} collection_name={currBoxes[key].collection_name} />
+              <GridBox files={currBoxes[key].files} collection_name={currBoxes[key].collection_name} editmode={edit}/>
               </SortableContext>
           </BoardBox>
         ))}

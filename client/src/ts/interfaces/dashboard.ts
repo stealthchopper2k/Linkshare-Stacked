@@ -1,5 +1,6 @@
 import { SetStateAction } from 'react';
 import { User } from "./user";
+import {RefObject}  from 'react';
 
 export interface DashboardState {
   user: User;
@@ -33,8 +34,11 @@ export type CollectionFunc = (
 ) => void;
 
 export interface CollectionTag {
+  editmode: boolean;
   collection_name: string;
   CollectionInput: CollectionFunc;
+  RevertCollectionInput: () => void;
+  PersistOldCollectionName: (args: string) => void;
 }
 
 export type FilterFunc = (val: keyof Conditions) => void;

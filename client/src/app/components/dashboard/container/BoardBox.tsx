@@ -14,14 +14,15 @@ interface Props {
   files: File[];
   collection_name: string;
   children: React.ReactNode;
+  editmode: boolean;
 }
 
 const animateLayoutChanges: AnimateLayoutChanges = (args) =>
   defaultAnimateLayoutChanges({...args, wasDragging: true});
 
-export function BoardBox({ id, files, collection_name, children }: Props) {
+export function BoardBox({ id, files, children, editmode }: Props) {
 
-  const { attributes, listeners, over, active, setNodeRef, transform, transition } =
+  const { attributes, listeners, active, setNodeRef, transform, transition } =
     useSortable({
       id, data: {
         type: "container",
@@ -31,12 +32,12 @@ export function BoardBox({ id, files, collection_name, children }: Props) {
     });
 
   const style = {
-    transform: CSS.Transform.toString(transform),
+    transform: CSS.Translate.toString(transform),
     transition,
   };
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners} className="my-8 rounded-lg relative w-4/5 border-solid border-2 border-black">
+    <div ref={editmode ? setNodeRef : null} style={style} {...attributes} {...listeners} className="my-8 rounded-lg relative w-4/5 border-solid border-2 border-black bg-white">
         {children}
     </div>
   );
